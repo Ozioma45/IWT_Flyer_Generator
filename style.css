@@ -1,0 +1,28 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+.upload-section,
+.name-section,
+.button-section {
+    margin: 20px 0;
+}
+
+canvas {
+    width: 100%;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+}
