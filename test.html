@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Will Be There Flyer Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"></script>
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>I Will Be There!</h1>
+
+        <div class="upload-section">
+            <label for="passportInput">Upload Passport Photo</label>
+            <input type="file" id="passportInput" accept="image/*">
+        </div>
+
+        <div class="name-section">
+            <label for="nameInput">Enter Your Name</label>
+            <input type="text" id="nameInput" placeholder="Your Name">
+        </div>
+
+        <div class="canvas-container" style="width: 400px; margin: auto;">
+            <canvas id="flyerCanvas"></canvas>
+        </div>
+
+        <div class="button-section">
+            <button id="downloadBtn">Download Flyer</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

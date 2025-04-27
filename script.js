@@ -1,55 +1,129 @@
-const passportInput = document.getElementById('passportInput');
-const nameInput = document.getElementById('nameInput');
-const flyerCanvas = document.getElementById('flyerCanvas');
-const ctx = flyerCanvas.getContext('2d');
-const downloadBtn = document.getElementById('downloadBtn');
+const originalWidth = 1000;
+const originalHeight = 1000;
+const displayWidth = 400;
+const displayHeight = 400;
 
-let flyerImage = new Image();
-flyerImage.src = 'assets/flyer.png';  // load your flyer
-
-let passportImage = null;
-
-flyerImage.onload = () => {
-    drawFlyer();
-};
-
-passportInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            passportImage = new Image();
-            passportImage.onload = drawFlyer;
-            passportImage.src = event.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
+const flyerCanvas = new fabric.Canvas('flyerCanvas', {
+    width: originalWidth,
+    height: originalHeight,
+    preserveObjectStacking: true
 });
 
-nameInput.addEventListener('input', drawFlyer);
+// Scale canvas for display only
+const scaleFactor = displayWidth / originalWidth;
+flyerCanvas.setZoom(scaleFactor);
 
-downloadBtn.addEventListener('click', () => {
+// Important: do not change internal width/height here, only zoom for display.
+
+// Load the flyer background
+fabric.Image.fromURL('asset/test.png', function(img) {
+    img.selectable = false;
+    flyerCanvas.setBackgroundImage(img, flyerCanvas.renderAll.bind(flyerCanvas), {
+        scaleX: flyerCanvas.width / img.width,
+        scaleY: flyerCanvas.height / img.height
+    });
+});
+
+// Draw the white photo frame using two rectangles
+const frameWidth = 330;
+const frameHeight = 422;
+const frameLeft = 627.5;
+const frameTop = 219.5;
+const borderThickness = 10;
+
+// Outer white border
+const frameOuter = new fabric.Rect({
+    left: frameLeft - borderThickness/2,
+    top: frameTop - borderThickness/2,
+    width: frameWidth + borderThickness,
+    height: frameHeight + borderThickness,
+    fill: 'white',
+    rx: 20 + (borderThickness/2),
+    ry: 20 + (borderThickness/2),
+    selectable: false
+});
+
+// Inner black frame
+const frameInner = new fabric.Rect({
+    left: frameLeft,
+    top: frameTop,
+    width: frameWidth,
+    height: frameHeight,
+    fill: 'black',
+    rx: 20,
+    ry: 20,
+    selectable: false
+});
+
+flyerCanvas.add(frameOuter);
+flyerCanvas.add(frameInner);
+
+// Upload passport photo
+document.getElementById('photoUpload').addEventListener('change', function(e) {
+    const reader = new FileReader();
+    reader.onload = function(f) {
+        fabric.Image.fromURL(f.target.result, function(img) {
+            img.scaleToWidth(frameWidth);
+            img.scaleToHeight(frameHeight);
+            img.left = frameLeft;
+            img.top = frameTop;
+            img.clipPath = new fabric.Rect({
+                left: frameLeft,
+                top: frameTop,
+                width: frameWidth,
+                height: frameHeight,
+                rx: 20,
+                ry: 20,
+                absolutePositioned: true
+            });
+            flyerCanvas.add(img);
+            flyerCanvas.setActiveObject(img);
+            flyerCanvas.renderAll();
+        });
+    }
+    reader.readAsDataURL(e.target.files[0]);
+});
+
+// Type user name
+document.getElementById('nameInput').addEventListener('input', function(e) {
+    const existingName = flyerCanvas.getObjects('text').find(obj => obj.id === 'userName');
+    if (existingName) flyerCanvas.remove(existingName);
+
+    const userName = new fabric.Textbox(e.target.value, {
+        id: 'userName',
+        left: frameLeft + (frameWidth / 2),
+        top: frameTop + frameHeight + 20,
+        width: frameWidth + 20,
+        fontSize: 28,
+        fontWeight: 'bold',
+        fill: 'black',
+        backgroundColor: 'white',
+        textAlign: 'center',
+        padding: 10,
+        originX: 'center'
+    });
+
+    flyerCanvas.add(userName);
+    flyerCanvas.renderAll();
+});
+
+// Download the final flyer
+function downloadFlyer() {
+    flyerCanvas.setZoom(1); // Reset zoom before export
+    flyerCanvas.renderAll();
+
+    const dataURL = flyerCanvas.toDataURL({
+        format: 'png',
+        multiplier: 1 // Full size
+    });
+
+    flyerCanvas.setZoom(scaleFactor); // Restore zoom after export
+    flyerCanvas.renderAll();
+
     const link = document.createElement('a');
-    link.download = 'iwillbethere.png';
-    link.href = flyerCanvas.toDataURL();
+    link.href = dataURL;
+    link.download = 'i-will-be-there.png';
+    document.body.appendChild(link);
     link.click();
-});
-
-function drawFlyer() {
-    ctx.clearRect(0, 0, flyerCanvas.width, flyerCanvas.height);
-
-    // Draw the flyer background
-    ctx.drawImage(flyerImage, 0, 0, flyerCanvas.width, flyerCanvas.height);
-
-    if (passportImage) {
-        // Draw the passport image (position it nicely)
-        ctx.drawImage(passportImage, 300, 150, 200, 200); // You can adjust x, y, width, height
-    }
-
-    if (nameInput.value.trim() !== '') {
-        ctx.font = "40px Arial";
-        ctx.fillStyle = "#ffffff"; // white text
-        ctx.textAlign = "center";
-        ctx.fillText(nameInput.value, flyerCanvas.width / 2, 400); // Adjust y position
-    }
+    document.body.removeChild(link);
 }

@@ -3,33 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I Will Be There Flyer Generator</title>
-    <link rel="stylesheet" href="style.css">
+    <title>I Will Be There!</title>
+    <style>
+        body {
+        background: #f5f5f5;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+    #canvas-container {
+        margin: 20px auto;
+    }
+    input, button {
+        margin: 10px;
+    }
+    </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>I Will Be There!</h1>
+    <h2>I Will Be There!</h2>
+    
+    <div>
+        <label>Upload Passport Photo: </label>
+        <input type="file" id="photoUpload" accept="image/*"><br>
 
-        <div class="upload-section">
-            <label for="passportInput">Upload Passport Photo</label>
-            <input type="file" id="passportInput" accept="image/*">
-        </div>
+        <label>Enter Your Name: </label>
+        <input type="text" id="nameInput"><br>
 
-        <div class="name-section">
-            <label for="nameInput">Enter Your Name</label>
-            <input type="text" id="nameInput" placeholder="Your Name">
-        </div>
-
-        <div class="canvas-container">
-            <canvas id="flyerCanvas" width="1000" height="1000"></canvas>
-        </div>
-
-        <div class="button-section">
-            <button id="downloadBtn">Download Flyer</button>
-        </div>
+        <button onclick="downloadFlyer()">Download Flyer</button>
     </div>
 
+    <div id="canvas-container" style="width: 400px; margin: auto;">
+        <canvas id="flyerCanvas"></canvas>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"></script>
     <script src="script.js"></script>
+
 </body>
 </html>
