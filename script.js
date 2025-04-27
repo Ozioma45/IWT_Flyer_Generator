@@ -1,3 +1,5 @@
+
+
 const originalWidth = 1000;
 const originalHeight = 1000;
 const displayWidth = 400;
@@ -85,27 +87,34 @@ document.getElementById('photoUpload').addEventListener('change', function(e) {
 });
 
 // Type user name
-document.getElementById('nameInput').addEventListener('input', function(e) {
-    const existingName = flyerCanvas.getObjects('text').find(obj => obj.id === 'userName');
-    if (existingName) flyerCanvas.remove(existingName);
+const montserrat = new FontFaceObserver('Montserrat');
 
-    const userName = new fabric.Textbox(e.target.value, {
-        id: 'userName',
-        left: frameLeft + (frameWidth / 2),
-        top: frameTop + frameHeight + 20,
-        width: frameWidth + 20,
-        fontSize: 28,
-        fontWeight: 'bold',
-        fill: 'black',
-        backgroundColor: 'white',
-        textAlign: 'center',
-        padding: 10,
-        originX: 'center'
+montserrat.load().then(function () {
+    document.getElementById('nameInput').addEventListener('input', function(e) {
+        const existingName = flyerCanvas.getObjects('text').find(obj => obj.id === 'userName');
+        if (existingName) flyerCanvas.remove(existingName);
+
+        const userName = new fabric.Textbox(e.target.value.toUpperCase(), {
+            id: 'userName',
+            left: frameLeft + (frameWidth / 2),
+            top: frameTop + frameHeight + 5,
+            width: frameWidth + 20,
+            fontSize: 28,
+            fontWeight: 'bold',
+            fontFamily: 'Montserrat',
+            fill: 'black',
+            backgroundColor: 'white',
+            textAlign: 'center',
+            padding: 90,
+            originX: 'center',
+            selectable: false, 
+        });
+
+        flyerCanvas.add(userName);
+        flyerCanvas.renderAll();
     });
-
-    flyerCanvas.add(userName);
-    flyerCanvas.renderAll();
 });
+
 
 // Download the final flyer
 function downloadFlyer() {
