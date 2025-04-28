@@ -153,6 +153,11 @@ function downloadFlyer() {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+
+  // After download show popup
+  setTimeout(() => {
+    alert("🎉 Your flyer is ready!\n\nWe are expecting you and have prepared a special seat for you!\n\n👉 Invite more people to create their own flyers here:\nhttps://iwt-flyer-generator.vercel.app/");
+  }, 500); // slight delay to make sure download finishes
 }
 
 // Preview
@@ -181,9 +186,9 @@ async function shareFlyer() {
           const file = new File([blob], 'flyer.png', { type: blob.type });
           await navigator.share({ 
             files: [file], 
-            title: 'My Flyer', 
-            text: 'Check out my flyer!' 
-          });
+            title: 'I Will Be There!', 
+        text: `🎉 I'm excited to be there!\n\nCreate your own flyer here:\nhttps://iwt-flyer-generator.vercel.app/` 
+      });
       } catch (error) {
           alert('Sharing failed: ' + error.message);
       }
@@ -208,6 +213,11 @@ function downloadMainFlyer() {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+
+  // After download show popup
+  setTimeout(() => {
+    alert("🎉 Your flyer is ready!\n\nWe are expecting you and have prepared a special seat for you!\n\n👉 Invite more people to create their own flyers here:\nhttps://iwt-flyer-generator.vercel.app/");
+  }, 500); // slight delay to make sure download finishes
 }
 
 // Main Flyer Share
@@ -221,8 +231,8 @@ async function shareMainFlyer() {
           const file = new File([blob], 'main-flyer.png', { type: blob.type });
           await navigator.share({
               files: [file],
-              title: 'Main Flyer',
-              text: 'See this!'
+               title: 'I Will Be There! (Main Flyer)',
+        text: `🎉 Join us!\n\nCreate your own flyer here:\nhttps://iwt-flyer-generator.vercel.app/`
           });
       } catch (error) {
           alert('Sharing failed: ' + error.message);
