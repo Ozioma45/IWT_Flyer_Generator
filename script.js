@@ -154,10 +154,9 @@ function downloadFlyer() {
   link.click();
   document.body.removeChild(link);
 
-  // After download show popup
-  setTimeout(() => {
-    alert("🎉 Your flyer is ready!\n\nWe are expecting you and have prepared a special seat for you!\n\n👉 Invite more people to create their own flyers here:\nhttps://iwt-flyer-generator.vercel.app/");
-  }, 500); // slight delay to make sure download finishes
+  
+  // Show popup after download
+  showInvitePopup();
 }
 
 // Preview
@@ -189,6 +188,7 @@ async function shareFlyer() {
             title: 'I Will Be There!', 
         text: `🎉 I'm excited to be there!\n\nCreate your own flyer here:\nhttps://iwt-flyer-generator.vercel.app/` 
       });
+      showInvitePopup();
       } catch (error) {
           alert('Sharing failed: ' + error.message);
       }
@@ -214,10 +214,8 @@ function downloadMainFlyer() {
   link.click();
   document.body.removeChild(link);
 
-  // After download show popup
-  setTimeout(() => {
-    alert("🎉 Your flyer is ready!\n\nWe are expecting you and have prepared a special seat for you!\n\n👉 Invite more people to create their own flyers here:\nhttps://iwt-flyer-generator.vercel.app/");
-  }, 500); // slight delay to make sure download finishes
+  // Show popup after download
+  showInvitePopup();
 }
 
 // Main Flyer Share
@@ -234,6 +232,7 @@ async function shareMainFlyer() {
                title: 'I Will Be There! (Main Flyer)',
         text: `🎉 Join us!\n\nCreate your own flyer here:\nhttps://iwt-flyer-generator.vercel.app/`
           });
+          showInvitePopup();
       } catch (error) {
           alert('Sharing failed: ' + error.message);
       }
@@ -248,3 +247,24 @@ async function shareMainFlyer() {
   }
 }
 
+function showInvitePopup() {
+  document.getElementById('invitePopup').style.display = 'flex';
+}
+
+function closePopup() {
+  document.getElementById('invitePopup').style.display = 'none';
+}
+
+function copyInviteLink() {
+  const copyText = document.getElementById('inviteLink');
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); // For mobile devices
+
+  navigator.clipboard.writeText(copyText.value)
+    .then(() => {
+      alert('Link copied! Share it with others 🙌');
+    })
+    .catch(err => {
+      alert('Failed to copy: ' + err);
+    });
+}

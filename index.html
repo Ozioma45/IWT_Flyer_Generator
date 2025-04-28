@@ -12,6 +12,20 @@
 </head>
 
 <body>
+
+<!-- Popup Modal -->
+<div id="invitePopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:flex; align-items:center; justify-content:center; z-index:1000;">
+  <div style="background:white; padding:2rem; border-radius:10px; max-width:400px; text-align:center; position:relative;">
+    <h2>Thank you!</h2>
+    <p>We've prepared a special seat for you 🎉<br>Help us invite more people!</p>
+    <input type="text" id="inviteLink" value="https://iwt-flyer-generator.vercel.app/" readonly style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;"/>
+    <button onclick="copyInviteLink()" style="background:#007bff; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Copy Link</button>
+    <br><br>
+    <button onclick="closePopup()" style="background:#ccc; color:black; padding:8px 15px; border:none; border-radius:5px; cursor:pointer;">Close</button>
+  </div>
+</div>
+
+
   <div class="logo_cont">
     <img src="asset/logo.png" alt="WTK_logo" class="logo">
     <h2>Worship The King Flyer !!</h2>
