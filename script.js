@@ -133,6 +133,12 @@ function undoChanges() {
 
 // Download flyer
 function downloadFlyer() {
+
+  if (!hasShared) {
+    alert("Please share the flyer first before downloading 🙏");
+    return; // Stop download if not shared yet
+  }
+
   // Reset Zoom
   flyerCanvas.setZoom(1);
   flyerCanvas.setWidth(originalWidth);
@@ -166,6 +172,8 @@ function previewFlyer() {
   win.document.write('<iframe src="' + dataURL + '" frameborder="0" style="border:0; top:0; left:0; bottom:0; right:0; width:100%; height:100%;" allowfullscreen></iframe>');
 }
 
+
+let hasShared = false;
 // Share
 async function shareFlyer() {
   if (navigator.share) {
@@ -175,15 +183,17 @@ async function shareFlyer() {
         text: '🎉 Create your flyer in 5 seconds and show everyone you\'ll be there!',
         url: 'https://iwt-flyer-generator.vercel.app/'
       });
-      showInvitePopup();
+      hasShared = true; // <-- NEW: Mark that sharing was successful
+      alert("Thanks for sharing! 🎉 You can now download your flyer.");
+      //showInvitePopup();
     } catch (error) {
       alert('Sharing failed: ' + error.message);
     }
   } else {
-    // Fallback for browsers that don't support navigator.share
     window.open('https://iwt-flyer-generator.vercel.app/', '_blank');
   }
 }
+
 
 
 // Main Flyer Download
