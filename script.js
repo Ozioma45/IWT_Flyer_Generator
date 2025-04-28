@@ -135,9 +135,15 @@ function undoChanges() {
 function downloadFlyer() {
 
   if (!hasShared) {
-    alert("Please share the flyer first before downloading 🙏");
-    return; // Stop download if not shared yet
+    Swal.fire({
+      icon: 'warning',
+      title: 'Hold on! 🙏',
+      text: 'Please share the Link first before downloading. Just click the share button',
+      confirmButtonText: 'Got it!'
+    });
+    return;
   }
+  
 
   // Reset Zoom
   flyerCanvas.setZoom(1);
@@ -184,10 +190,22 @@ async function shareFlyer() {
         url: 'https://iwt-flyer-generator.vercel.app/'
       });
       hasShared = true; // <-- NEW: Mark that sharing was successful
-      alert("Thanks for sharing! 🎉 You can now download your flyer.");
+      Swal.fire({
+        icon: 'success',
+        title: 'Thank you for sharing! 🎉',
+        text: 'You can now download your flyer.',
+        confirmButtonText: 'Awesome!'
+      });
+      
       //showInvitePopup();
     } catch (error) {
-      alert('Sharing failed: ' + error.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Sharing failed',
+        text: error.message,
+        confirmButtonText: 'Okay'
+      });
+      
     }
   } else {
     window.open('https://iwt-flyer-generator.vercel.app/', '_blank');
@@ -226,7 +244,13 @@ async function shareMainFlyer() {
           });
           showInvitePopup();
       } catch (error) {
-          alert('Sharing failed: ' + error.message);
+        Swal.fire({
+          icon: 'error',
+          title: 'Sharing failed',
+          text: error.message,
+          confirmButtonText: 'Okay'
+        });
+        
       }
   } else {
       // Fallback: open the main flyer in a new tab
@@ -276,9 +300,21 @@ function copyInviteLink() {
 
   navigator.clipboard.writeText(copyText.value)
     .then(() => {
-      alert('Link copied! Share it with others 🙌');
+      Swal.fire({
+        icon: 'success',
+        title: 'Link copied!',
+        text: 'Share it with others 🙌',
+        confirmButtonText: 'Will do!'
+      });
+      
     })
     .catch(err => {
-      alert('Failed to copy: ' + err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Copy failed',
+        text: err,
+        confirmButtonText: 'Okay'
+      });
+      
     });
 }
