@@ -3,6 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Open Graph meta tags -->
+<meta property="og:title" content="Get Your 'I Will Be There' Flyer!" />
+<meta property="og:description" content="🎉 Create your flyer in 5 seconds and show everyone you'll be there!" />
+<meta property="og:image" content="https://iwt-flyer-generator.vercel.app/asset/IwbT.png" />
+<meta property="og:url" content="https://iwt-flyer-generator.vercel.app/" />
+<meta property="og:type" content="website" />
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Get Your 'I Will Be There' Flyer!">
+<meta name="twitter:description" content="🎉 Create your flyer in 5 seconds and show everyone you'll be there!">
+<meta name="twitter:image" content="https://iwt-flyer-generator.vercel.app/asset/IwbT.png">
+
+<link rel="icon" href="asset/logo.png" type="image/png">
+
+
   <title>I Will Be There!</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
@@ -17,7 +32,8 @@
 <div id="invitePopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); align-items:center; justify-content:center; z-index:1000;">
   <div style="background:white; padding:2rem; border-radius:10px; max-width:400px; text-align:center; position:relative;">
     <h2>Thank you!</h2>
-    <p>We've prepared a special seat for you 🎉<br>Help us invite more people!</p>
+    <p>We've saved a special seat for you 🎉<br>Invite your friends to join too!
+    </p>
     <input type="text" id="inviteLink" value="https://iwt-flyer-generator.vercel.app/" readonly style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;"/>
     <button onclick="copyInviteLink()" style="background:#007bff; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Copy Link</button>
     <br><br>
@@ -79,7 +95,7 @@
 
     <div class="action-buttons">
       <button onclick="downloadMainFlyer()">⬇ Download</button>
-      <button onclick="shareMainFlyer()">🔗 Share</button>
+      <button onclick="shareFlyer()">🔗 Share</button>
     </div>
   </div>
  

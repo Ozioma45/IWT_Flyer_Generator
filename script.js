@@ -168,38 +168,20 @@ function previewFlyer() {
 
 // Share
 async function shareFlyer() {
-  // Reset Zoom to original
-  flyerCanvas.setZoom(1);
-  flyerCanvas.setWidth(originalWidth);
-  flyerCanvas.setHeight(originalHeight);
-  flyerCanvas.renderAll();
-
-  const dataURL = flyerCanvas.toDataURL({ format: 'png', multiplier: 1 });
-
-  // Restore Zoom
-  resizeCanvas();
-
-  if (navigator.canShare && navigator.canShare({ files: [new File([], '')] })) {
-      try {
-          const blob = await (await fetch(dataURL)).blob();
-          const file = new File([blob], 'flyer.png', { type: blob.type });
-          await navigator.share({ 
-            files: [file], 
-            title: 'I Will Be There!', 
-        text: `🎉 I'm excited to be there!\n\nCreate your own flyer here:\nhttps://iwt-flyer-generator.vercel.app/` 
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: 'Get Your "I Will Be There" Flyer!',
+        text: '🎉 Create your flyer in 5 seconds and show everyone you\'ll be there!',
+        url: 'https://iwt-flyer-generator.vercel.app/'
       });
       showInvitePopup();
-      } catch (error) {
-          alert('Sharing failed: ' + error.message);
-      }
+    } catch (error) {
+      alert('Sharing failed: ' + error.message);
+    }
   } else {
-      // Fallback: Open the flyer image in a new tab
-      const newTab = window.open();
-      if (newTab) {
-          newTab.document.body.innerHTML = `<img src="${dataURL}" style="width:100%;height:auto;" alt="Shared Flyer"/>`;
-      } else {
-          alert('Please allow popups to view the flyer.');
-      }
+    // Fallback for browsers that don't support navigator.share
+    window.open('https://iwt-flyer-generator.vercel.app/', '_blank');
   }
 }
 
