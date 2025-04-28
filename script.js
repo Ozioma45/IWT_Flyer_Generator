@@ -249,7 +249,29 @@ async function shareMainFlyer() {
 
 function showInvitePopup() {
   document.getElementById('invitePopup').style.display = 'flex';
+
+  // Play the sound
+  const sound = document.getElementById('celebrationSound');
+  sound.currentTime = 0; // Rewind to start
+  sound.play();
+
+  // Launch confetti
+  confetti({
+    particleCount: 150,
+    spread: 70,
+    origin: { y: 0.6 }
+  });
+
+  // Optionally, keep shooting confetti every few milliseconds for more celebration
+  setTimeout(() => {
+    confetti({
+      particleCount: 100,
+      spread: 100,
+      origin: { y: 0.6 }
+    });
+  }, 500);
 }
+
 
 function closePopup() {
   document.getElementById('invitePopup').style.display = 'none';
