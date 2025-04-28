@@ -67,6 +67,7 @@ document.getElementById('photoUpload').addEventListener('change', function(e) {
         ry: 20,
         absolutePositioned: true
       });
+      img.id = 'userPhoto';
       flyerCanvas.add(img);
       flyerCanvas.setActiveObject(img);
       flyerCanvas.renderAll();
@@ -117,6 +118,19 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 window.addEventListener('load', resizeCanvas);
 
+// Undo
+function undoChanges() {
+  const objs = flyerCanvas.getObjects();
+  objs.forEach(obj => {
+      if (obj.id === 'userPhoto' || obj.id === 'userName') {
+          flyerCanvas.remove(obj);
+      }
+  });
+  flyerCanvas.renderAll();
+}
+
+
+
 // Download flyer
 function downloadFlyer() {
   // Reset Zoom
@@ -140,3 +154,87 @@ function downloadFlyer() {
   link.click();
   document.body.removeChild(link);
 }
+
+// Preview
+function previewFlyer() {
+  const dataURL = flyerCanvas.toDataURL({ format: 'png', multiplier: 1 });
+  const win = window.open();
+  win.document.write('<iframe src="' + dataURL + '" frameborder="0" style="border:0; top:0; left:0; bottom:0; right:0; width:100%; height:100%;" allowfullscreen></iframe>');
+}
+
+// Share
+async function shareFlyer() {
+  // Reset Zoom to original
+  flyerCanvas.setZoom(1);
+  flyerCanvas.setWidth(originalWidth);
+  flyerCanvas.setHeight(originalHeight);
+  flyerCanvas.renderAll();
+
+  const dataURL = flyerCanvas.toDataURL({ format: 'png', multiplier: 1 });
+
+  // Restore Zoom
+  resizeCanvas();
+
+  if (navigator.canShare && navigator.canShare({ files: [new File([], '')] })) {
+      try {
+          const blob = await (await fetch(dataURL)).blob();
+          const file = new File([blob], 'flyer.png', { type: blob.type });
+          await navigator.share({ 
+            files: [file], 
+            title: 'My Flyer', 
+            text: 'Check out my flyer!' 
+          });
+      } catch (error) {
+          alert('Sharing failed: ' + error.message);
+      }
+  } else {
+      // Fallback: Open the flyer image in a new tab
+      const newTab = window.open();
+      if (newTab) {
+          newTab.document.body.innerHTML = `<img src="${dataURL}" style="width:100%;height:auto;" alt="Shared Flyer"/>`;
+      } else {
+          alert('Please allow popups to view the flyer.');
+      }
+  }
+}
+
+
+// Main Flyer Download
+function downloadMainFlyer() {
+  const img = document.getElementById('mainFlyerImage');
+  const link = document.createElement('a');
+  link.href = img.src;
+  link.download = 'main-flyer.png';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+// Main Flyer Share
+async function shareMainFlyer() {
+  const imgSrc = document.getElementById('mainFlyerImage').src;
+
+  if (navigator.canShare && navigator.canShare({ files: [new File([], '')] })) {
+      try {
+          const response = await fetch(imgSrc);
+          const blob = await response.blob();
+          const file = new File([blob], 'main-flyer.png', { type: blob.type });
+          await navigator.share({
+              files: [file],
+              title: 'Main Flyer',
+              text: 'See this!'
+          });
+      } catch (error) {
+          alert('Sharing failed: ' + error.message);
+      }
+  } else {
+      // Fallback: open the main flyer in a new tab
+      const newTab = window.open();
+      if (newTab) {
+          newTab.document.body.innerHTML = `<img src="${imgSrc}" style="width:100%;height:auto;" alt="Main Flyer"/>`;
+      } else {
+          alert('Please allow popups to view the flyer.');
+      }
+  }
+}
+

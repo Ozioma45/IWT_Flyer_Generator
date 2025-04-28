@@ -1,0 +1,131 @@
+
+*{
+  text-align: center;
+}
+
+    body {
+      background: #f5f5f5;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    #canvas-container {
+      width: 100%;
+      max-width: 450px;
+      margin: 20px auto;
+      background: red;
+      position: relative;
+    }
+
+    canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    input {
+      margin: 10px 0;
+      width: 90%;
+      max-width: 400px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .logo_cont{
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.329);
+    }
+
+    .logo {
+      max-width: 100px;
+    }
+
+    button{
+    background: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    margin: 5px 5px 0 0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+    }
+
+    .action-buttons{
+      display: flex;
+      justify-content: space-between;
+      margin: 1rem 0rem;
+    }
+
+    .control>h3{
+      text-align: left;
+    }
+
+    .control {
+      text-align: left;
+      font-family: 'Montserrat', sans-serif;
+      box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.329);
+      padding: 10px;
+    }
+    
+    .input-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  text-align: start;
+}
+
+.input-wrapper .icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: bold;
+  background: #ccc;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.input-wrapper input {
+  padding-left: 40px; /* Make space for the icon */
+  font-family: 'Montserrat', sans-serif; /* Optional: your font */
+}
+
+/* Make the placeholder thicker */
+.input-wrapper input::placeholder {
+  font-weight: 600; /* or 700 for extra bold */
+  color: #aaa; /* lighter color if you want */
+  text-align: left; 
+}
+
+.main-flyer {
+    width: 100%;
+    border-radius: 8px;
+    max-width: 500px;
+  }
